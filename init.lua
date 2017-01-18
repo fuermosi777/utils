@@ -24,7 +24,7 @@ end
 
 --- open different Chrome users
 hs.hotkey.bind({"alt"}, "1", chrome_switch_to("Hao"))
-hs.hotkey.bind({"alt"}, "2", chrome_switch_to("Work"))
+-- hs.hotkey.bind({"alt"}, "2", chrome_switch_to("Work"))
 hs.hotkey.bind({"alt"}, "`", chrome_switch_to("Incognito"))
 
 --- quick open applications
@@ -33,3 +33,4 @@ hs.hotkey.bind({"alt"}, "W", open("WeChat"))
 hs.hotkey.bind({"alt"}, "S", open("Sublime Text"))
 hs.hotkey.bind({"alt"}, "C", open("Google Chrome"))
 hs.hotkey.bind({"alt"}, "T", open("iTerm"))
+hs.hotkey.bind({"alt"}, "X", open("Xcode"))
