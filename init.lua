@@ -22,6 +22,10 @@ function open(name)
     end
 end
 
+function sleep()
+    hs.caffeinate.systemSleep()
+end
+
 --- open different Chrome users
 hs.hotkey.bind({"alt"}, "1", chrome_switch_to("Hao"))
 -- hs.hotkey.bind({"alt"}, "2", chrome_switch_to("Work"))
@@ -34,3 +38,6 @@ hs.hotkey.bind({"alt"}, "S", open("Sublime Text"))
 hs.hotkey.bind({"alt"}, "C", open("Google Chrome"))
 hs.hotkey.bind({"alt"}, "T", open("iTerm"))
 hs.hotkey.bind({"alt"}, "X", open("Xcode"))
+
+--- sleep
+hs.hotkey.bind({"control", "alt", "command"}, "DELETE", sleep)
