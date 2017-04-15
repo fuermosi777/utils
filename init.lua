@@ -27,29 +27,40 @@ end
 
 local rc = 0
 function move_right()
-    if rc == 0 then
+    local screenWidth = hs.screen.mainScreen():frame().w
+    local focusedWindowFrame = hs.window.focusedWindow():frame()
+    local x = focusedWindowFrame.x
+    local w = focusedWindowFrame.w
+    if x + w ~= screenWidth then
         hs.window.focusedWindow():moveToUnit(hs.layout.right50)
-        rc = rc + 1
-    elseif rc == 1 then
+        rc = 50
+    elseif rc == 50 then
         hs.window.focusedWindow():moveToUnit(hs.layout.right70)
-        rc = rc + 1
-    else
+        rc = 70
+    elseif rc == 70 then
         hs.window.focusedWindow():moveToUnit(hs.layout.right30)
-        rc = 0
+        rc = 30
+    else
+        hs.window.focusedWindow():moveToUnit(hs.layout.right50)
+        rc = 50
     end
 end
 
 local lc = 0
 function move_left()
-    if lc == 0 then
+    local x = hs.window.focusedWindow():frame().x
+    if x ~= 0 then
         hs.window.focusedWindow():moveToUnit(hs.layout.left50)
-        lc = lc + 1
-    elseif lc == 1 then
+        lc = 50
+    elseif lc == 50 then
         hs.window.focusedWindow():moveToUnit(hs.layout.left70)
-        lc = lc + 1
-    else
+        lc = 70
+    elseif lc == 70 then
         hs.window.focusedWindow():moveToUnit(hs.layout.left30)
-        lc = 0
+        lc = 30
+    else
+        hs.window.focusedWindow():moveToUnit(hs.layout.left50)
+        lc = 50
     end
 end
 
