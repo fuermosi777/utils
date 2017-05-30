@@ -1,0 +1,20 @@
+// Place your key bindings in this file to overwrite the defaults
+[{ 
+  "key": "cmd+;",
+  "command": "workbench.action.toggleActivityBarVisibility",
+  "when": "editorFocus"
+}, {
+  "key": "cmd+y",
+  "command": "redo",
+  "when": "editorTextFocus && !editorReadonly"
+}, { 
+  "key": "shift+cmd+r", 
+  "command": "workbench.files.action.showActiveFileInExplorer", 
+  "when": "editorTextFocus" 
+}, { 
+  "key": "ctrl+shift+left",        
+  "command": "cursorWordStartLeftSelect"
+}, { 
+  "key": "ctrl+shift+right",        
+  "command": "cursorWordStartRightSelect"
+}, { "key": "cmd+k cmd+k",           "command": "workbench.action.keepEditor" }]

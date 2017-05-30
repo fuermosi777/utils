@@ -1,0 +1,22 @@
+{
+    "workbench.welcome.enabled": false,
+    "editor.fontFamily": "SF Mono",
+    "editor.lineHeight": 14,
+    "editor.fontWeight": "300",
+    "window.zoomLevel": 0,
+    "editor.scrollBeyondLastLine": false,
+    "workbench.activityBar.visible": false,
+    "editor.wordWrap": "on",
+    "explorer.autoReveal": false,
+    "workbench.statusBar.visible": true,
+    "workbench.colorTheme": "Spacegray Eighties Dark",
+    "javascript.validate.enable": false,
+    "editor.fontSize": 12,
+    "workbench.colorCustomizations": {
+      "statusBar.background": "#3C3C3C",
+      "editor.findMatchBackground": "#FFFF00",
+      "editor.background": "#222222"
+    },
+    "editor.renderWhitespace": "boundary",
+    "typescript.check.npmIsInstalled": false
+  }

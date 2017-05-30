@@ -1,3 +1,5 @@
+--- functions
+
 function chrome_switch_to(ppl)
     return function()
         hs.application.launchOrFocus("Google Chrome")
@@ -25,42 +27,35 @@ function sleep()
     hs.caffeinate.systemSleep()
 end
 
-local rc = 0
-function move_right()
+function move(dir)
+    local counter = {
+        right = 0,
+        left = 0
+    }
+    return function()
+        counter[dir] = _move(dir, counter[dir])
+    end
+end
+
+function _move(dir, ct)
     local screenWidth = hs.screen.mainScreen():frame().w
     local focusedWindowFrame = hs.window.focusedWindow():frame()
     local x = focusedWindowFrame.x
     local w = focusedWindowFrame.w
-    if x + w ~= screenWidth then
-        hs.window.focusedWindow():moveToUnit(hs.layout.right50)
-        rc = 50
-    elseif rc == 50 then
-        hs.window.focusedWindow():moveToUnit(hs.layout.right70)
-        rc = 70
-    elseif rc == 70 then
-        hs.window.focusedWindow():moveToUnit(hs.layout.right30)
-        rc = 30
+    local value = dir == 'right' and x + w or x
+    local valueTarget = dir == 'right' and screenWidth or 0
+    if value ~= valueTarget then
+        hs.window.focusedWindow():moveToUnit(hs.layout[dir .. 50])
+        return 50
+    elseif ct == 50 then
+        hs.window.focusedWindow():moveToUnit(hs.layout[dir .. 70])
+        return 70
+    elseif ct == 70 then
+        hs.window.focusedWindow():moveToUnit(hs.layout[dir .. 30])
+        return 30
     else
-        hs.window.focusedWindow():moveToUnit(hs.layout.right50)
-        rc = 50
-    end
-end
-
-local lc = 0
-function move_left()
-    local x = hs.window.focusedWindow():frame().x
-    if x ~= 0 then
-        hs.window.focusedWindow():moveToUnit(hs.layout.left50)
-        lc = 50
-    elseif lc == 50 then
-        hs.window.focusedWindow():moveToUnit(hs.layout.left70)
-        lc = 70
-    elseif lc == 70 then
-        hs.window.focusedWindow():moveToUnit(hs.layout.left30)
-        lc = 30
-    else
-        hs.window.focusedWindow():moveToUnit(hs.layout.left50)
-        lc = 50
+        hs.window.focusedWindow():moveToUnit(hs.layout[dir .. 50])
+        return 50
     end
 end
 
@@ -76,13 +71,27 @@ hs.hotkey.bind({"alt"}, "C", open("Google Chrome"))
 hs.hotkey.bind({"alt"}, "T", open("iTerm"))
 hs.hotkey.bind({"alt"}, "X", open("Xcode"))
 hs.hotkey.bind({"alt"}, "S", open("Sublime Text"))
-hs.hotkey.bind({"alt"}, "A", open("WebStorm"))
 hs.hotkey.bind({"alt"}, "V", open("Visual Studio Code"))
+hs.hotkey.bind({"alt"}, "I", open("IntelliJ IDEA"))
+hs.hotkey.bind({"alt"}, "M", open("NeteaseMusic"))
 
 --- sleep
 hs.hotkey.bind({"control", "alt", "command"}, "DELETE", sleep)
 
 --- window
 hs.window.animationDuration = 0
-hs.hotkey.bind({"ctrl", "cmd"}, "Right", move_right)
-hs.hotkey.bind({"ctrl", "cmd"}, "Left", move_left)
+hs.hotkey.bind({"ctrl", "cmd"}, "Right", move('right'))
+hs.hotkey.bind({"ctrl", "cmd"}, "Left", move('left'))
+
+--- when connected to work Wifi, mute the computer
+local workWifi = 'YFi'
+local outputDeviceName = 'Built-in Output'
+hs.wifi.watcher.new(function()
+    local currentWifi = hs.wifi.currentNetwork()
+    local currentOutput = hs.audiodevice.current(false)
+    if not currentWifi then return end
+    if (currentWifi == workWifi and currentOutput.name == outputDeviceName) then
+        hs.audiodevice.findDeviceByName(outputDeviceName):setOutputMuted(true)
+    end
+end):start()
+
