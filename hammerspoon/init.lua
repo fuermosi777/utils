@@ -1,5 +1,4 @@
 --- functions
-
 function chrome_switch_to(ppl)
     return function()
         hs.application.launchOrFocus("Google Chrome")
@@ -20,6 +19,9 @@ end
 function open(name)
     return function()
         hs.application.launchOrFocus(name)
+        if name == 'Finder' then
+            hs.appfinder.appFromName(name):activate()
+        end
     end
 end
 
@@ -95,3 +97,17 @@ hs.wifi.watcher.new(function()
     end
 end):start()
 
+--- quick add to reminder
+hs.hotkey.bind({"ctrl", "alt", "cmd"}, "R", function()
+    script = [[
+        tell application "System Events"
+            display dialog "Create a new reminder" default answer "" cancel button "Cancel" giving up after 20 with icon path to resource "Reminders.icns" in bundle (path to application "Reminders")
+            set reminTitle to text returned of result
+            tell application "Reminders"
+                set newremin to make new reminder
+                set name of newremin to reminTitle
+            end tell
+        end tell
+    ]]
+    hs.osascript.applescript(script)
+end)
