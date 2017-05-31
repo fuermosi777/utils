@@ -16,6 +16,31 @@ function chrome_switch_to(ppl)
     end
 end
 
+function chrome_active_tab_with_name(name)
+    return function()
+        hs.osascript.javascript([[
+            var chrome = Application('Google Chrome');
+            chrome.activate();
+            var wins = chrome.windows;
+            function main() {
+                for (var i = 0; i < wins.length; i++) {
+                    var win = wins.at(i);
+                    var tabs = win.tabs;
+                    for (var j = 0; j < tabs.length; j++) {
+                    var tab = tabs.at(j);
+                    tab.title(); j;
+                    if (tab.title().indexOf(']] .. name .. [[') > -1) {
+                            win.activeTabIndex = j + 1;
+                            return;
+                        }
+                    }
+                }
+            }
+            main();
+        ]])
+    end
+end
+
 function open(name)
     return function()
         hs.application.launchOrFocus(name)
@@ -27,6 +52,64 @@ end
 
 function sleep()
     hs.caffeinate.systemSleep()
+end
+
+function addReminder()
+    hs.osascript.javascript([[
+        var current = Application.currentApplication();
+        current.includeStandardAdditions = true;
+        var app = Application('Reminders');
+        app.includeStandardAdditions = true;
+
+        var td = new Date(); 
+
+        var dateMap = {
+            'Tonight': (function() { var d = new Date(); d.setHours(19, 0, 0, 0); return d; })(),
+            'Tomorrow morning': (function() { var d = new Date(); d.setHours(10, 0, 0, 0); d.setHours(d.getHours() + 24); return d; })(),
+            'Tomorrow night': (function() { var d = new Date(); d.setHours(19, 0, 0, 0); d.setHours(d.getHours() + 24); return d; })(),
+            'This saturday': new Date(td.getFullYear(), td.getMonth(), td.getDate() + (6 - td.getDay()), 10, 0, 0, 0),
+            'This sunday': new Date(td.getFullYear(), td.getMonth(), td.getDate() + (7 - td.getDay()), 10, 0, 0, 0) 
+        };
+
+        try {
+            var content = current.displayDialog('Create a new Reminder', {
+                defaultAnswer: '',
+                buttons: ['Next', 'Cancel'],
+                defaultButton: 'Next',
+                cancelButton: 'Cancel',
+                withTitle: 'New Reminder',
+                withIcon: Path('/Applications/Reminders.app/Contents/Resources/icon.icns')
+            });
+            
+            var list = current.chooseFromList(['TO DO', 'TO BUY', 'TO WATCH'], {
+                withTitle: 'List Selection',
+                withPrompt: 'Which list?',
+                defaultItems: ['TO DO'],
+                okButtonName: 'Next',
+                cancelButtonName: 'Cancel',
+                multipleSelectionsAllowed: false,
+                emptySelectionAllowed: false
+            })[0];
+            
+            var remindDate = current.chooseFromList(Object.keys(dateMap), {
+                withTitle: 'Due Date Selection',
+                withPrompt: 'When?',
+                okButtonName: 'OK',
+                cancelButtonName: 'Cancel',
+                multipleSelectionsAllowed: false,
+                emptySelectionAllowed: true
+            });
+            var remindMeDate = remindDate.length === 1 ? dateMap[ remindDate[0] ] : null;
+            
+            var entry = app.Reminder({
+                name: content.textReturned,
+                remindMeDate: remindMeDate
+            });
+            
+            app.lists[list].reminders.push(entry);
+            
+        } catch (err) {}
+    ]])
 end
 
 function move(dir)
@@ -76,6 +159,7 @@ hs.hotkey.bind({"alt"}, "S", open("Sublime Text"))
 hs.hotkey.bind({"alt"}, "V", open("Visual Studio Code"))
 hs.hotkey.bind({"alt"}, "I", open("IntelliJ IDEA"))
 hs.hotkey.bind({"alt"}, "M", open("NeteaseMusic"))
+hs.hotkey.bind({"alt"}, "H", chrome_active_tab_with_name("HipChat"))
 
 --- sleep
 hs.hotkey.bind({"control", "alt", "command"}, "DELETE", sleep)
@@ -98,16 +182,4 @@ hs.wifi.watcher.new(function()
 end):start()
 
 --- quick add to reminder
-hs.hotkey.bind({"ctrl", "alt", "cmd"}, "R", function()
-    script = [[
-        tell application "System Events"
-            display dialog "Create a new reminder" default answer "" cancel button "Cancel" giving up after 20 with icon path to resource "Reminders.icns" in bundle (path to application "Reminders")
-            set reminTitle to text returned of result
-            tell application "Reminders"
-                set newremin to make new reminder
-                set name of newremin to reminTitle
-            end tell
-        end tell
-    ]]
-    hs.osascript.applescript(script)
-end)
+hs.hotkey.bind({"ctrl", "alt", "cmd"}, "R", addReminder)
