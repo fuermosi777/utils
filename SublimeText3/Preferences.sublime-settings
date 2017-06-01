@@ -1,5 +1,25 @@
 {
-	"color_scheme": "Packages/User/SublimeLinter/Monokai (SL).tmTheme",
+	"binary_file_patterns":
+	[
+		"generated/*",
+		"*.tbz2",
+		"*.gzip",
+		"*.jpg",
+		"*.jpeg",
+		"*.png",
+		"*.gif",
+		"*.ttf",
+		"*.tga",
+		"*.dds",
+		"*.ico",
+		"*.eot",
+		"*.pdf",
+		"*.swf",
+		"*.jar",
+		"*.zip"
+	],
+	"color_scheme": "Packages/User/SublimeLinter/base16-eighties.dark (SL).tmTheme",
+	"enable_tab_scrolling": false,
 	"file_exclude_patterns":
 	[
 		"*.pyc",
@@ -21,22 +41,33 @@
 		"*.class",
 		"*.psd",
 		"*.db",
-		"*.sublime-workspace"
+		".map",
+		"*.sublime-workspace",
+		"*.info",
+		"*.tap"
 	],
 	"folder_exclude_patterns":
 	[
+		"node_modules",
+		"bower_components",
+		"tmp",
 		".svn",
 		".git",
 		".hg",
-		"CVS",
-		"node_modules",
-		"tmp"
+		".idea",
+		"dist",
+		"CVS"
 	],
+	"font_face": "SF Mono",
+	"font_size": 12,
 	"ignored_packages":
 	[
 		"Vintage"
 	],
+	"original_color_scheme": "Packages/Color Scheme - Default/Monokai.tmTheme",
+	"spacegray_fileicons": true,
 	"tab_size": 2,
+	"theme": "Spacegray Eighties.sublime-theme",
 	"translate_tabs_to_spaces": true,
-	"word_wrap": true
+	"word_wrap": "true"
 }
