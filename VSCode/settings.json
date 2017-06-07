@@ -1,7 +1,7 @@
 {
     "workbench.welcome.enabled": false,
     "editor.fontFamily": "SF Mono",
-    "editor.lineHeight": 14,
+    "editor.lineHeight": 14.5,
     "editor.fontWeight": "300",
     "window.zoomLevel": 0,
     "editor.scrollBeyondLastLine": false,
