@@ -144,6 +144,18 @@ function _move(dir, ct)
     end
 end
 
+function send_window_prev_monitor()
+  local win = hs.window.focusedWindow()
+  local nextScreen = win:screen():previous()
+  win:moveToScreen(nextScreen)
+end
+
+function send_window_next_monitor()
+  local win = hs.window.focusedWindow()
+  local nextScreen = win:screen():next()
+  win:moveToScreen(nextScreen)
+end
+
 --- open different Chrome users
 hs.hotkey.bind({"alt"}, "1", chrome_switch_to("Hao"))
 hs.hotkey.bind({"alt"}, "2", chrome_switch_to("Yahoo!"))
@@ -168,6 +180,8 @@ hs.hotkey.bind({"control", "alt", "command"}, "DELETE", sleep)
 hs.window.animationDuration = 0
 hs.hotkey.bind({"ctrl", "cmd"}, "Right", move('right'))
 hs.hotkey.bind({"ctrl", "cmd"}, "Left", move('left'))
+hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Left", send_window_prev_monitor)
+hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Right", send_window_next_monitor)
 
 --- when connected to work Wifi, mute the computer
 local workWifi = 'YFi'
