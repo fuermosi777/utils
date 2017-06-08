@@ -123,9 +123,9 @@ function move(dir)
 end
 
 function _move(dir, ct)
-    local screenWidth = hs.screen.mainScreen():frame().w
+    local screenWidth = hs.window.focusedWindow():screen():frame().w
     local focusedWindowFrame = hs.window.focusedWindow():frame()
-    local x = focusedWindowFrame.x
+    local x = focusedWindowFrame.x >= screenWidth and focusedWindowFrame.x - screenWidth or focusedWindowFrame.x
     local w = focusedWindowFrame.w
     local value = dir == 'right' and x + w or x
     local valueTarget = dir == 'right' and screenWidth or 0
