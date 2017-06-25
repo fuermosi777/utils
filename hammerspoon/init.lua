@@ -81,10 +81,10 @@ function addReminder()
                 withIcon: Path('/Applications/Reminders.app/Contents/Resources/icon.icns')
             });
             
-            var list = current.chooseFromList(['TO DO', 'TO BUY', 'TO WATCH'], {
+            var list = current.chooseFromList(['📌 TO DO', '🎬 TO WATCH', '🛒 TO BUY'], {
                 withTitle: 'List Selection',
                 withPrompt: 'Which list?',
-                defaultItems: ['TO DO'],
+                defaultItems: ['📌 TO DO'],
                 okButtonName: 'Next',
                 cancelButtonName: 'Cancel',
                 multipleSelectionsAllowed: false,
@@ -123,9 +123,9 @@ function move(dir)
 end
 
 function _move(dir, ct)
-    local screenWidth = hs.window.focusedWindow():screen():frame().w
+    local screenWidth = hs.screen.mainScreen():frame().w
     local focusedWindowFrame = hs.window.focusedWindow():frame()
-    local x = focusedWindowFrame.x >= screenWidth and focusedWindowFrame.x - screenWidth or focusedWindowFrame.x
+    local x = focusedWindowFrame.x
     local w = focusedWindowFrame.w
     local value = dir == 'right' and x + w or x
     local valueTarget = dir == 'right' and screenWidth or 0
@@ -144,18 +144,6 @@ function _move(dir, ct)
     end
 end
 
-function send_window_prev_monitor()
-  local win = hs.window.focusedWindow()
-  local nextScreen = win:screen():previous()
-  win:moveToScreen(nextScreen)
-end
-
-function send_window_next_monitor()
-  local win = hs.window.focusedWindow()
-  local nextScreen = win:screen():next()
-  win:moveToScreen(nextScreen)
-end
-
 --- open different Chrome users
 hs.hotkey.bind({"alt"}, "1", chrome_switch_to("Hao"))
 hs.hotkey.bind({"alt"}, "2", chrome_switch_to("Yahoo!"))
@@ -169,7 +157,7 @@ hs.hotkey.bind({"alt"}, "T", open("iTerm"))
 hs.hotkey.bind({"alt"}, "X", open("Xcode"))
 hs.hotkey.bind({"alt"}, "S", open("Sublime Text"))
 hs.hotkey.bind({"alt"}, "V", open("Visual Studio Code"))
-hs.hotkey.bind({"alt"}, "I", open("IntelliJ IDEA"))
+hs.hotkey.bind({"alt"}, "I", open("IntelliJ IDEA CE"))
 hs.hotkey.bind({"alt"}, "M", open("NeteaseMusic"))
 hs.hotkey.bind({"alt"}, "H", chrome_active_tab_with_name("HipChat"))
 
@@ -180,8 +168,6 @@ hs.hotkey.bind({"control", "alt", "command"}, "DELETE", sleep)
 hs.window.animationDuration = 0
 hs.hotkey.bind({"ctrl", "cmd"}, "Right", move('right'))
 hs.hotkey.bind({"ctrl", "cmd"}, "Left", move('left'))
-hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Left", send_window_prev_monitor)
-hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Right", send_window_next_monitor)
 
 --- when connected to work Wifi, mute the computer
 local workWifi = 'YFi'
