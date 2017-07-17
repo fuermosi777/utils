@@ -81,7 +81,7 @@ function addReminder()
                 withIcon: Path('/Applications/Reminders.app/Contents/Resources/icon.icns')
             });
             
-            var list = current.chooseFromList(['TO DO', 'TO BUY', 'TO WATCH'], {
+            var list = current.chooseFromList(['📌 TO DO', '🛒 TO BUY', '🎬 TO WATCH'], {
                 withTitle: 'List Selection',
                 withPrompt: 'Which list?',
                 defaultItems: ['TO DO'],
