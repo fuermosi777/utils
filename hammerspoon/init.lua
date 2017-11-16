@@ -169,8 +169,11 @@ hs.hotkey.bind({"alt"}, "T", open("iTerm"))
 hs.hotkey.bind({"alt"}, "X", open("Xcode"))
 hs.hotkey.bind({"alt"}, "S", open("Sublime Text"))
 hs.hotkey.bind({"alt"}, "V", open("Visual Studio Code"))
-hs.hotkey.bind({"alt"}, "I", open("IntelliJ IDEA"))
-hs.hotkey.bind({"alt"}, "M", open("NeteaseMusic"))
+hs.hotkey.bind({"alt"}, "I", open("IntelliJ IDEA CE"))
+hs.hotkey.bind({"alt"}, "N", open("NeteaseMusic"))
+hs.hotkey.bind({"alt"}, "M", open("Spark"))
+hs.hotkey.bind({"alt"}, "F", open("Firefox"))
+hs.hotkey.bind({"alt"}, "B", open("Firefox"))
 hs.hotkey.bind({"alt"}, "H", chrome_active_tab_with_name("HipChat"))
 
 --- sleep
