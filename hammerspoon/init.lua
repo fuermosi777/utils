@@ -174,7 +174,6 @@ hs.hotkey.bind({"alt"}, "N", open("NeteaseMusic"))
 hs.hotkey.bind({"alt"}, "M", open("Spark"))
 hs.hotkey.bind({"alt"}, "F", open("Firefox"))
 hs.hotkey.bind({"alt"}, "B", open("Firefox"))
-hs.hotkey.bind({"alt"}, "H", chrome_active_tab_with_name("HipChat"))
 
 --- sleep
 hs.hotkey.bind({"control", "alt", "command"}, "DELETE", sleep)
