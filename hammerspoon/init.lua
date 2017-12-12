@@ -81,7 +81,7 @@ function addReminder()
                 withIcon: Path('/Applications/Reminders.app/Contents/Resources/icon.icns')
             });
             
-            var list = current.chooseFromList(['TO DO', 'TO BUY', 'TO WATCH'], {
+            var list = current.chooseFromList(['📌 TO DO', '🛒 TO BUY', '🎬 TO WATCH'], {
                 withTitle: 'List Selection',
                 withPrompt: 'Which list?',
                 defaultItems: ['TO DO'],
@@ -123,12 +123,12 @@ function move(dir)
 end
 
 function _move(dir, ct)
-    local screenWidth = hs.screen.mainScreen():frame().w
+    local screenFrame = hs.window.focusedWindow():screen():frame()
     local focusedWindowFrame = hs.window.focusedWindow():frame()
-    local x = focusedWindowFrame.x
+    local x = focusedWindowFrame.x - screenFrame.x
     local w = focusedWindowFrame.w
     local value = dir == 'right' and x + w or x
-    local valueTarget = dir == 'right' and screenWidth or 0
+    local valueTarget = dir == 'right' and screenFrame.w or 0
     if value ~= valueTarget then
         hs.window.focusedWindow():moveToUnit(hs.layout[dir .. 50])
         return 50
@@ -169,9 +169,11 @@ hs.hotkey.bind({"alt"}, "T", open("iTerm"))
 hs.hotkey.bind({"alt"}, "X", open("Xcode"))
 hs.hotkey.bind({"alt"}, "S", open("Sublime Text"))
 hs.hotkey.bind({"alt"}, "V", open("Visual Studio Code"))
-hs.hotkey.bind({"alt"}, "I", open("IntelliJ IDEA"))
-hs.hotkey.bind({"alt"}, "M", open("NeteaseMusic"))
-hs.hotkey.bind({"alt"}, "H", chrome_active_tab_with_name("HipChat"))
+hs.hotkey.bind({"alt"}, "I", open("IntelliJ IDEA CE"))
+hs.hotkey.bind({"alt"}, "N", open("NeteaseMusic"))
+hs.hotkey.bind({"alt"}, "M", open("Spark"))
+hs.hotkey.bind({"alt"}, "F", open("Firefox"))
+hs.hotkey.bind({"alt"}, "B", open("Firefox"))
 
 --- sleep
 hs.hotkey.bind({"control", "alt", "command"}, "DELETE", sleep)
