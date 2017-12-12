@@ -1,8 +1,7 @@
 {
-    "workbench.welcome.enabled": false,
     "editor.fontFamily": "SF Mono",
-    "editor.lineHeight": 14,
-    "editor.fontWeight": "300",
+    "editor.lineHeight": 14.5,
+    "editor.fontWeight": "normal",
     "window.zoomLevel": 0,
     "editor.scrollBeyondLastLine": false,
     "workbench.activityBar.visible": false,
@@ -10,13 +9,14 @@
     "explorer.autoReveal": false,
     "workbench.statusBar.visible": true,
     "workbench.colorTheme": "Spacegray Eighties Dark",
-    "javascript.validate.enable": false,
-    "editor.fontSize": 12,
     "workbench.colorCustomizations": {
-      "statusBar.background": "#3C3C3C",
       "editor.findMatchBackground": "#FFFF00",
-      "editor.background": "#222222"
+      "editorIndentGuide.background": "#444444"
     },
-    "editor.renderWhitespace": "boundary",
-    "typescript.check.npmIsInstalled": false
+    "typescript.check.npmIsInstalled": false,
+    "workbench.iconTheme": "vs-seti",
+    "editor.minimap.enabled": false,
+    "extensions.ignoreRecommendations": true,
+    "workbench.panel.location": "bottom",
+    "javascript.implicitProjectConfig.experimentalDecorators": true
   }
