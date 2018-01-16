@@ -199,3 +199,11 @@ end):start()
 
 --- quick add to reminder
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "R", addReminder)
+
+--- key macros
+function keyStrokes(str)
+    return function()
+        hs.eventtap.keyStrokes(str)
+    end
+end
+hs.hotkey.bind({"ctrl", "alt", "cmd"}, "C", keyStrokes("console.log("))
