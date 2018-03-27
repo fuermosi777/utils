@@ -158,7 +158,7 @@ end
 
 --- open different Chrome users
 hs.hotkey.bind({"alt"}, "1", chrome_switch_to("Hao"))
-hs.hotkey.bind({"alt"}, "2", chrome_switch_to("Yahoo!"))
+hs.hotkey.bind({"alt"}, "2", chrome_switch_to("Google"))
 hs.hotkey.bind({"alt"}, "`", chrome_switch_to("Incognito"))
 
 --- quick open applications
@@ -186,7 +186,7 @@ hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Left", send_window_prev_monitor)
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Right", send_window_next_monitor)
 
 --- when connected to work Wifi, mute the computer
-local workWifi = 'YFi'
+local workWifi = 'Google-A'
 local outputDeviceName = 'Built-in Output'
 hs.wifi.watcher.new(function()
     local currentWifi = hs.wifi.currentNetwork()
