@@ -16,30 +16,30 @@ function chrome_switch_to(ppl)
     end
 end
 
-function chrome_active_tab_with_name(name)
-    return function()
-        hs.osascript.javascript([[
-            var chrome = Application('Google Chrome');
-            chrome.activate();
-            var wins = chrome.windows;
-            function main() {
-                for (var i = 0; i < wins.length; i++) {
-                    var win = wins.at(i);
-                    var tabs = win.tabs;
-                    for (var j = 0; j < tabs.length; j++) {
-                    var tab = tabs.at(j);
-                    tab.title(); j;
-                    if (tab.title().indexOf(']] .. name .. [[') > -1) {
-                            win.activeTabIndex = j + 1;
-                            return;
-                        }
-                    }
-                }
-            }
-            main();
-        ]])
-    end
-end
+-- function chrome_active_tab_with_name(name)
+--     return function()
+--         hs.osascript.javascript([[
+--             var chrome = Application('Google Chrome');
+--             chrome.activate();
+--             var wins = chrome.windows;
+--             function main() {
+--                 for (var i = 0; i < wins.length; i++) {
+--                     var win = wins.at(i);
+--                     var tabs = win.tabs;
+--                     for (var j = 0; j < tabs.length; j++) {
+--                     var tab = tabs.at(j);
+--                     tab.title(); j;
+--                     if (tab.title().indexOf(']] .. name .. [[') > -1) {
+--                             win.activeTabIndex = j + 1;
+--                             return;
+--                         }
+--                     }
+--                 }
+--             }
+--             main();
+--         ]])
+--     end
+-- end
 
 function open(name)
     return function()
@@ -54,95 +54,99 @@ function sleep()
     hs.caffeinate.systemSleep()
 end
 
-function addReminder()
-    hs.osascript.javascript([[
-        var current = Application.currentApplication();
-        current.includeStandardAdditions = true;
-        var app = Application('Reminders');
-        app.includeStandardAdditions = true;
-
-        var td = new Date(); 
-
-        var dateMap = {
-            'Tonight': (function() { var d = new Date(); d.setHours(19, 0, 0, 0); return d; })(),
-            'Tomorrow morning': (function() { var d = new Date(); d.setHours(10, 0, 0, 0); d.setHours(d.getHours() + 24); return d; })(),
-            'Tomorrow night': (function() { var d = new Date(); d.setHours(19, 0, 0, 0); d.setHours(d.getHours() + 24); return d; })(),
-            'This saturday': new Date(td.getFullYear(), td.getMonth(), td.getDate() + (6 - td.getDay()), 10, 0, 0, 0),
-            'This sunday': new Date(td.getFullYear(), td.getMonth(), td.getDate() + (7 - td.getDay()), 10, 0, 0, 0) 
-        };
-
-        try {
-            var content = current.displayDialog('Create a new Reminder', {
-                defaultAnswer: '',
-                buttons: ['Next', 'Cancel'],
-                defaultButton: 'Next',
-                cancelButton: 'Cancel',
-                withTitle: 'New Reminder',
-                withIcon: Path('/Applications/Reminders.app/Contents/Resources/icon.icns')
-            });
-            
-            var list = current.chooseFromList(['📌 TO DO', '🛒 TO BUY', '🎬 TO WATCH'], {
-                withTitle: 'List Selection',
-                withPrompt: 'Which list?',
-                defaultItems: ['TO DO'],
-                okButtonName: 'Next',
-                cancelButtonName: 'Cancel',
-                multipleSelectionsAllowed: false,
-                emptySelectionAllowed: false
-            })[0];
-            
-            var remindDate = current.chooseFromList(Object.keys(dateMap), {
-                withTitle: 'Due Date Selection',
-                withPrompt: 'When?',
-                okButtonName: 'OK',
-                cancelButtonName: 'Cancel',
-                multipleSelectionsAllowed: false,
-                emptySelectionAllowed: true
-            });
-            var remindMeDate = remindDate.length === 1 ? dateMap[ remindDate[0] ] : null;
-            
-            var entry = app.Reminder({
-                name: content.textReturned,
-                remindMeDate: remindMeDate
-            });
-            
-            app.lists[list].reminders.push(entry);
-            
-        } catch (err) {}
-    ]])
-end
-
 function move(dir)
-    local counter = {
-        right = 0,
-        left = 0
-    }
     return function()
-        counter[dir] = _move(dir, counter[dir])
+        local win = hs.window.focusedWindow()
+        local frame = win:frame()
+        local screenFrame = win:screen():frame()
+        local x = frame.x - screenFrame.x
+        local y = frame.y - screenFrame.y
+        local w = frame.w
+        local h = frame.h
+        if dir == 'right' then
+          if x < 0 then -- negative left
+            frame.x = 0
+          elseif x == 0 then -- attach to left
+            if w < screenFrame.w * 1 / 4 then -- win width less than 25%
+              frame.w = screenFrame.w * 1 / 4
+            elseif w < math.floor(screenFrame.w * 1 / 3) then -- win with less than 33%
+              frame.w = math.floor(screenFrame.w * 1 / 3)
+            elseif w < screenFrame.w * 1 / 2 then -- win width less than 50%
+              frame.w = screenFrame.w * 1 / 2
+            elseif w < screenFrame.w * 3 / 4 then -- win with less than 75%
+              frame.w = screenFrame.w * 3 / 4
+            else
+              frame.x = screenFrame.w * 1 / 4
+              frame.w = screenFrame.w * 3 / 4
+            end
+          elseif x < screenFrame.w / 2 then -- win on the left side
+            frame.x = screenFrame.w / 2
+            frame.w = screenFrame.w / 2
+          elseif x >= screenFrame.w / 2 and x < math.floor(screenFrame.w * 2 / 3) then -- win left edge in 50% - 66%
+            frame.x = math.floor(screenFrame.w * 2 / 3)
+            frame.w = math.floor(screenFrame.w * 1 / 3)
+          elseif x >= math.floor(screenFrame.w * 2 / 3) and x < screenFrame.w * 3 / 4 then -- win left edge in 66% - 75%
+            frame.x = screenFrame.w * 3 / 4
+            frame.w = screenFrame.w * 1 / 4
+          end
+        elseif dir == 'left' then
+          if x + w > screenFrame.w  then -- negative right
+            frame.x = screenFrame.w - w
+          elseif x + w == screenFrame.w then -- attach to right
+            if w < screenFrame.w * 1 / 4 then -- win width less than 25%
+              frame.w = screenFrame.w * 1 / 4
+              frame.x = screenFrame.w - frame.w
+            elseif w < math.floor(screenFrame.w * 1 / 3) then -- win with less than 33%
+              frame.w = math.floor(screenFrame.w * 1 / 3)
+              frame.x = screenFrame.w - frame.w
+            elseif w < screenFrame.w * 1 / 2 then -- win width less than 50%
+              frame.w = screenFrame.w * 1 / 2
+              frame.x = screenFrame.w - frame.w
+            elseif w < screenFrame.w * 3 / 4 then -- win with less than 75%
+              frame.w = screenFrame.w * 3 / 4
+              frame.x = screenFrame.w - frame.w
+            else
+              frame.x = 0
+              frame.w = screenFrame.w * 3 / 4
+            end
+          elseif x > screenFrame.w / 2 then -- win on the right side
+            frame.x = 0
+            frame.w = screenFrame.w / 2
+          elseif x > 0 then -- win on left side
+            frame.x = 0
+          elseif w > screenFrame.w / 2 then -- win larger than 50%
+            frame.w = screenFrame.w * 1 / 2
+          elseif w > math.floor(screenFrame.w * 1 / 3) then -- win larger than 33%
+            frame.w = math.floor(screenFrame.w * 1 / 3)
+          elseif w > screenFrame.w * 1 / 4 then -- win larger than 25%
+            frame.w = screenFrame.w * 1 / 4
+          end
+        end
+        win:setFrame(frame)
     end
 end
 
-function _move(dir, ct)
-    local screenFrame = hs.window.focusedWindow():screen():frame()
-    local focusedWindowFrame = hs.window.focusedWindow():frame()
-    local x = focusedWindowFrame.x - screenFrame.x
-    local w = focusedWindowFrame.w
-    local value = dir == 'right' and x + w or x
-    local valueTarget = dir == 'right' and screenFrame.w or 0
-    if value ~= valueTarget then
-        hs.window.focusedWindow():moveToUnit(hs.layout[dir .. 50])
-        return 50
-    elseif ct == 50 then
-        hs.window.focusedWindow():moveToUnit(hs.layout[dir .. 70])
-        return 70
-    elseif ct == 70 then
-        hs.window.focusedWindow():moveToUnit(hs.layout[dir .. 30])
-        return 30
-    else
-        hs.window.focusedWindow():moveToUnit(hs.layout[dir .. 50])
-        return 50
-    end
-end
+-- function _move(dir, status)
+--     local screenFrame = hs.window.focusedWindow():screen():frame()
+--     local focusedWindowFrame = hs.window.focusedWindow():frame()
+--     local x = focusedWindowFrame.x - screenFrame.x
+--     local w = focusedWindowFrame.w
+--     local value = dir == 'right' and x + w or x
+--     local valueTarget = dir == 'right' and screenFrame.w or 0
+--     if value ~= valueTarget then
+--         hs.window.focusedWindow():moveToUnit(hs.layout[dir .. 50])
+--         return 50
+--     elseif ct == 50 then
+--         hs.window.focusedWindow():moveToUnit(hs.layout[dir .. 70])
+--         return 70
+--     elseif ct == 70 then
+--         hs.window.focusedWindow():moveToUnit(hs.layout[dir .. 30])
+--         return 30
+--     else
+--         hs.window.focusedWindow():moveToUnit(hs.layout[dir .. 50])
+--         return 50
+--     end
+-- end
 
 function send_window_prev_monitor()
   local win = hs.window.focusedWindow()
@@ -170,10 +174,8 @@ hs.hotkey.bind({"alt"}, "X", open("Xcode"))
 hs.hotkey.bind({"alt"}, "S", open("Sublime Text"))
 hs.hotkey.bind({"alt"}, "V", open("Visual Studio Code"))
 hs.hotkey.bind({"alt"}, "I", open("IntelliJ IDEA CE"))
-hs.hotkey.bind({"alt"}, "N", open("NeteaseMusic"))
-hs.hotkey.bind({"alt"}, "M", open("Spark"))
-hs.hotkey.bind({"alt"}, "F", open("Firefox"))
-hs.hotkey.bind({"alt"}, "B", open("Firefox"))
+hs.hotkey.bind({"alt"}, "N", open("NeteaseMusic")) -- netease
+hs.hotkey.bind({"alt"}, "M", open("Spark")) -- mail
 
 --- sleep
 hs.hotkey.bind({"control", "alt", "command"}, "DELETE", sleep)
@@ -182,23 +184,10 @@ hs.hotkey.bind({"control", "alt", "command"}, "DELETE", sleep)
 hs.window.animationDuration = 0
 hs.hotkey.bind({"ctrl", "cmd"}, "Right", move('right'))
 hs.hotkey.bind({"ctrl", "cmd"}, "Left", move('left'))
+hs.hotkey.bind({"ctrl", "cmd"}, "Up", move('up'))
+hs.hotkey.bind({"ctrl", "cmd"}, "Down", move('down'))
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Left", send_window_prev_monitor)
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Right", send_window_next_monitor)
-
---- when connected to work Wifi, mute the computer
-local workWifi = 'Google-A'
-local outputDeviceName = 'Built-in Output'
-hs.wifi.watcher.new(function()
-    local currentWifi = hs.wifi.currentNetwork()
-    local currentOutput = hs.audiodevice.current(false)
-    if not currentWifi then return end
-    if (currentWifi == workWifi and currentOutput.name == outputDeviceName) then
-        hs.audiodevice.findDeviceByName(outputDeviceName):setOutputMuted(true)
-    end
-end):start()
-
---- quick add to reminder
-hs.hotkey.bind({"ctrl", "alt", "cmd"}, "R", addReminder)
 
 --- key macros
 function keyStrokes(str)
@@ -206,4 +195,4 @@ function keyStrokes(str)
         hs.eventtap.keyStrokes(str)
     end
 end
-hs.hotkey.bind({"ctrl", "alt", "cmd"}, "C", keyStrokes("console.log("))
+hs.hotkey.bind({"ctrl", "alt", "cmd"}, "L", keyStrokes("console.log("))
