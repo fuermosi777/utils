@@ -44,7 +44,6 @@ end
 function open(name)
     return function()
         hs.application.launchOrFocus(name)
-        print(hs.application.runningApplications())
         if name == 'Finder' then
             hs.appfinder.appFromName(name):activate()
         end
@@ -60,10 +59,13 @@ function move(dir)
         local win = hs.window.focusedWindow()
         local frame = win:frame()
         local screenFrame = win:screen():frame()
-        local x = frame.x - screenFrame.x
-        local y = frame.y - screenFrame.y
+        frame = win:screen():absoluteToLocal(frame)
+        screenFrame = win:screen():absoluteToLocal(screenFrame)
+        local x = frame.x
+        local y = frame.y
         local w = frame.w
         local h = frame.h
+
         if dir == 'right' then
             if x < 0 then -- negative left
                 frame.x = 0
@@ -123,23 +125,23 @@ function move(dir)
                 frame.w = screenFrame.w * 1 / 4
             end
         elseif dir == 'up' then
-            if y == 0 then -- attach to top
+            if y == screenFrame.y then -- attach to top
                 if h >= screenFrame.h / 2 then
                     frame.h = screenFrame.h / 2
                 end
-            elseif y + h == screenFrame.h then -- attach to bottom
+            elseif y + h == screenFrame.h + screenFrame.y then -- attach to bottom
                 frame.y = 0
                 frame.h = screenFrame.h
             else
                 frame.y = 0
             end
         elseif dir == 'down' then
-            if y + h == screenFrame.h then -- attach to bottom
+            if y + h == screenFrame.h + screenFrame.y then -- attach to bottom
                 if h >= screenFrame.h / 2 then
                     frame.h = screenFrame.h / 2
-                    frame.y = screenFrame.h - frame.h + 22
+                    frame.y = screenFrame.h - frame.h + screenFrame.y
                 end
-            elseif y == 0 then -- attach to top
+            elseif y == screenFrame.y then -- attach to top
                 frame.y = 0
                 frame.h = screenFrame.h
             elseif y + h > screenFrame.h then -- overflow bottom do nothing
@@ -147,6 +149,8 @@ function move(dir)
                 frame.y = screenFrame.h - h + 22
             end
         end
+
+        frame = win:screen():localToAbsolute(frame)
         win:setFrame(frame)
     end
 end
