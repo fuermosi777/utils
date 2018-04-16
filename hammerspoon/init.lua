@@ -44,6 +44,7 @@ end
 function open(name)
     return function()
         hs.application.launchOrFocus(name)
+        print(hs.application.runningApplications())
         if name == 'Finder' then
             hs.appfinder.appFromName(name):activate()
         end
@@ -126,28 +127,6 @@ function move(dir)
     end
 end
 
--- function _move(dir, status)
---     local screenFrame = hs.window.focusedWindow():screen():frame()
---     local focusedWindowFrame = hs.window.focusedWindow():frame()
---     local x = focusedWindowFrame.x - screenFrame.x
---     local w = focusedWindowFrame.w
---     local value = dir == 'right' and x + w or x
---     local valueTarget = dir == 'right' and screenFrame.w or 0
---     if value ~= valueTarget then
---         hs.window.focusedWindow():moveToUnit(hs.layout[dir .. 50])
---         return 50
---     elseif ct == 50 then
---         hs.window.focusedWindow():moveToUnit(hs.layout[dir .. 70])
---         return 70
---     elseif ct == 70 then
---         hs.window.focusedWindow():moveToUnit(hs.layout[dir .. 30])
---         return 30
---     else
---         hs.window.focusedWindow():moveToUnit(hs.layout[dir .. 50])
---         return 50
---     end
--- end
-
 function send_window_prev_monitor()
   local win = hs.window.focusedWindow()
   local nextScreen = win:screen():previous()
@@ -161,8 +140,8 @@ function send_window_next_monitor()
 end
 
 --- open different Chrome users
-hs.hotkey.bind({"alt"}, "1", chrome_switch_to("Hao"))
-hs.hotkey.bind({"alt"}, "2", chrome_switch_to("Google"))
+hs.hotkey.bind({"alt"}, "1", chrome_switch_to("Google"))
+hs.hotkey.bind({"alt"}, "2", chrome_switch_to("Hao"))
 hs.hotkey.bind({"alt"}, "`", chrome_switch_to("Incognito"))
 
 --- quick open applications
@@ -176,6 +155,7 @@ hs.hotkey.bind({"alt"}, "V", open("Visual Studio Code"))
 hs.hotkey.bind({"alt"}, "I", open("IntelliJ IDEA CE"))
 hs.hotkey.bind({"alt"}, "N", open("NeteaseMusic")) -- netease
 hs.hotkey.bind({"alt"}, "M", open("Spark")) -- mail
+hs.hotkey.bind({"alt"}, "H", open("Things3"))
 
 --- sleep
 hs.hotkey.bind({"control", "alt", "command"}, "DELETE", sleep)
@@ -189,6 +169,18 @@ hs.hotkey.bind({"ctrl", "cmd"}, "Down", move('down'))
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Left", send_window_prev_monitor)
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Right", send_window_next_monitor)
 
+--- when connected to work Wifi, mute the computer
+local workWifi = 'Google-A'
+local outputDeviceName = 'Built-in Output'
+hs.wifi.watcher.new(function()
+    local currentWifi = hs.wifi.currentNetwork()
+    local currentOutput = hs.audiodevice.current(false)
+    if not currentWifi then return end
+    if (currentWifi == workWifi and currentOutput.name == outputDeviceName) then
+        hs.audiodevice.findDeviceByName(outputDeviceName):setOutputMuted(true)
+    end
+end):start()
+
 --- key macros
 function keyStrokes(str)
     return function()
@@ -196,3 +188,4 @@ function keyStrokes(str)
     end
 end
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "L", keyStrokes("console.log("))
+
