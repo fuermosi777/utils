@@ -186,7 +186,7 @@ hs.hotkey.bind({"alt"}, "M", open("Spark")) -- mail
 hs.hotkey.bind({"alt"}, "H", open("Things3"))
 
 --- lock
-hs.hotkey.bind({"control", "alt", "command"}, "DELETE", lock)
+hs.hotkey.bind({"shift", "alt", "command"}, "DELETE", lock)
 
 --- window
 hs.window.animationDuration = 0
