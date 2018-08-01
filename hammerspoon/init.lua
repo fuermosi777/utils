@@ -50,8 +50,8 @@ function open(name)
     end
 end
 
-function sleep()
-    hs.caffeinate.systemSleep()
+function lock()
+    hs.caffeinate.lockScreen()
 end
 
 function move(dir)
@@ -185,17 +185,17 @@ hs.hotkey.bind({"alt"}, "N", open("NeteaseMusic")) -- netease
 hs.hotkey.bind({"alt"}, "M", open("Spark")) -- mail
 hs.hotkey.bind({"alt"}, "H", open("Things3"))
 
---- sleep
-hs.hotkey.bind({"control", "alt", "command"}, "DELETE", sleep)
+--- lock
+hs.hotkey.bind({"control", "alt", "command"}, "DELETE", lock)
 
 --- window
 hs.window.animationDuration = 0
-hs.hotkey.bind({"ctrl", "cmd"}, "Right", move('right'))
-hs.hotkey.bind({"ctrl", "cmd"}, "Left", move('left'))
-hs.hotkey.bind({"ctrl", "cmd"}, "Up", move('up'))
-hs.hotkey.bind({"ctrl", "cmd"}, "Down", move('down'))
-hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Left", send_window_prev_monitor)
-hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Right", send_window_next_monitor)
+hs.hotkey.bind({"alt", "cmd"}, "Right", move('right'))
+hs.hotkey.bind({"alt", "cmd"}, "Left", move('left'))
+hs.hotkey.bind({"alt", "cmd"}, "Up", move('up'))
+hs.hotkey.bind({"alt", "cmd"}, "Down", move('down'))
+hs.hotkey.bind({"shift", "alt", "cmd"}, "Left", send_window_prev_monitor)
+hs.hotkey.bind({"shift", "alt", "cmd"}, "Right", send_window_next_monitor)
 
 --- when connected to work Wifi, mute the computer
 local workWifi = 'Google-A'
@@ -215,5 +215,5 @@ function keyStrokes(str)
         hs.eventtap.keyStrokes(str)
     end
 end
-hs.hotkey.bind({"ctrl", "alt", "cmd"}, "L", keyStrokes("console.log("))
+hs.hotkey.bind({"alt", "cmd"}, "L", keyStrokes("console.log("))
 
