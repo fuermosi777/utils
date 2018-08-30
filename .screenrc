@@ -1,0 +1,6 @@
+hardstatus alwayslastline '%{= kG}[ %{G}%H | %{=kw}%?%-Lw%?%{g}%n*%f%t%?(%u)%? %{g}]%{w}%?%+Lw%?%?%=%{g}[ %{K}%l %{g}][ %{B}%Y-%m-%d %{W     }%c %{g}]'
+defscrollback 10000
+startup_message off
+autodetach on
+termcapinfo xterm* ti@:te@   # For mouse scroll
+altscreen on     # Clear screen after quitting vim
