@@ -4,3 +4,5 @@
 - Visual Studio Code
 - Sublime Text 3
 - iTerm2
+- screen
+- ShadowSocksX
