@@ -9,4 +9,7 @@ var rules = [
   "*.127.net/*",
   "*.miaozhen.com/*",
   "*.baidu.com/*",
+  "*.qq.com/*",
+  "*.cn/*",
+  "*.weiyun.com/*"
 ];
