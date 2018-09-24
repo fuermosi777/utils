@@ -42,10 +42,6 @@ function chrome_switch_to(menuItem)
     end
   end
   
-  function lock()
-    hs.caffeinate.lockScreen()
-  end
-  
   function sleep()
     hs.caffeinate.systemSleep()
   end
@@ -181,9 +177,8 @@ function chrome_switch_to(menuItem)
   hs.hotkey.bind({"alt"}, "M", open("Spark")) -- mail
   hs.hotkey.bind({"alt"}, "H", open("Things3"))
   hs.hotkey.bind({"alt"}, "D", chrome_switch_to(".*- Cider")) -- active Chrome Cider
-  --- lock and sleep
+  --- sleep
   hs.hotkey.bind({"shift", "alt", "command"}, "DELETE", sleep)
-  hs.hotkey.bind({"shift", "alt", "command"}, "L", lock)
   
   --- window
   hs.window.animationDuration = 0
