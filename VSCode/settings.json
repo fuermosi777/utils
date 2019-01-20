@@ -1,22 +1,25 @@
 {
-    "editor.fontFamily": "SF Mono",
-    "editor.lineHeight": 14.5,
-    "editor.fontWeight": "normal",
-    "window.zoomLevel": 0,
-    "editor.scrollBeyondLastLine": false,
-    "workbench.activityBar.visible": false,
-    "editor.wordWrap": "on",
-    "explorer.autoReveal": false,
-    "workbench.statusBar.visible": true,
-    "workbench.colorTheme": "Spacegray Eighties Dark",
-    "workbench.colorCustomizations": {
-      "editor.findMatchBackground": "#FFFF00",
-      "editorIndentGuide.background": "#444444"
-    },
-    "typescript.check.npmIsInstalled": false,
-    "workbench.iconTheme": "vs-seti",
-    "editor.minimap.enabled": false,
-    "extensions.ignoreRecommendations": true,
-    "workbench.panel.location": "bottom",
-    "javascript.implicitProjectConfig.experimentalDecorators": true
-  }
+  "editor.lineHeight": 14.5,
+  "editor.fontWeight": "normal",
+  "window.zoomLevel": 0,
+  "editor.scrollBeyondLastLine": false,
+  "workbench.activityBar.visible": false,
+  "editor.wordWrap": "on",
+  "explorer.autoReveal": false,
+  "workbench.statusBar.visible": true,
+  "workbench.colorCustomizations": {
+    "editor.findMatchBackground": "#FFFF00",
+    "editorIndentGuide.background": "#444444",
+    "titleBar.activeBackground": "#252526",
+    "sideBar.background": "#252526"
+  },
+  "typescript.check.npmIsInstalled": false,
+  "workbench.iconTheme": "vs-seti",
+  "editor.minimap.enabled": false,
+  "extensions.ignoreRecommendations": true,
+  "javascript.implicitProjectConfig.experimentalDecorators": true,
+  "workbench.colorTheme": "Spacegray Eighties Dark",
+  "editor.fontFamily": "Fira Code",
+  "editor.fontLigatures": true,
+  "editor.acceptSuggestionOnCommitCharacter": false
+}
