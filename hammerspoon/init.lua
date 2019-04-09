@@ -41,6 +41,13 @@ function chrome_switch_to(menuItem)
         end
     end
   end
+
+  function openChromeApp(name)
+    return function()
+        -- Be sure to get the real name of the app (Use ls -a to check).
+        hs.application.launchOrFocus(os.getenv('HOME') .. '/Applications/Chrome Apps.localized/' .. name .. '.app')
+    end
+  end
   
   function sleep()
     hs.caffeinate.systemSleep()
@@ -162,6 +169,7 @@ function chrome_switch_to(menuItem)
   --- open different Chrome users
   hs.hotkey.bind({"alt"}, "1", chrome_switch_to("^Google"))
   hs.hotkey.bind({"alt"}, "2", chrome_switch_to("^Hao"))
+  hs.hotkey.bind({"alt"}, "3", chrome_switch_to("^PatHub"))
   hs.hotkey.bind({"alt"}, "`", chrome_switch_to(".*Incognito.*"))
   
   --- quick open applications
@@ -176,7 +184,7 @@ function chrome_switch_to(menuItem)
   hs.hotkey.bind({"alt"}, "N", open("NeteaseMusic")) -- netease
   hs.hotkey.bind({"alt"}, "M", open("Spark")) -- mail
   hs.hotkey.bind({"alt"}, "H", open("Things3"))
-  hs.hotkey.bind({"alt"}, "D", chrome_switch_to(".*- Cider")) -- active Chrome Cider
+  hs.hotkey.bind({"alt"}, "D", openChromeApp("Cider"))
   --- sleep
   hs.hotkey.bind({"shift", "alt", "command"}, "DELETE", sleep)
   
