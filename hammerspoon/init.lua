@@ -182,7 +182,7 @@ function chrome_switch_to(menuItem)
   hs.hotkey.bind({"alt"}, "I", open("IntelliJ IDEA CE"))
   hs.hotkey.bind({"alt"}, "N", open("NeteaseMusic")) -- netease
   hs.hotkey.bind({"alt"}, "M", open("Spark")) -- mail
-  hs.hotkey.bind({"alt"}, "H", open("Reminders"))
+  hs.hotkey.bind({"alt"}, "H", open("Things3"))
   hs.hotkey.bind({"alt"}, "D", openChromeApp("Cider"))
   --- sleep
   hs.hotkey.bind({"shift", "alt", "command"}, "DELETE", sleep)
