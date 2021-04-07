@@ -167,8 +167,8 @@ function chrome_switch_to(menuItem)
   end
   
   --- open different Chrome users
-  hs.hotkey.bind({"alt"}, "1", chrome_switch_to({"People", "Hao (Google)"}))
-  hs.hotkey.bind({"alt"}, "2", chrome_switch_to({"People", "vlogbyhao"}))
+  hs.hotkey.bind({"alt"}, "1", chrome_switch_to({"People", "Hao"}))
+  hs.hotkey.bind({"alt"}, "2", chrome_switch_to({"People", "vlogbyhao (Personal)"}))
   hs.hotkey.bind({"alt"}, "`", chrome_switch_to({"File", "New Incognito Window"}))
   
   --- quick open applications
@@ -179,9 +179,6 @@ function chrome_switch_to(menuItem)
   hs.hotkey.bind({"alt"}, "X", open("Xcode"))
   hs.hotkey.bind({"alt"}, "S", open("Sublime Text"))
   hs.hotkey.bind({"alt"}, "V", open("Visual Studio Code"))
-  hs.hotkey.bind({"alt"}, "I", open("IntelliJ IDEA CE"))
-  hs.hotkey.bind({"alt"}, "N", open("NeteaseMusic")) -- netease
-  hs.hotkey.bind({"alt"}, "M", open("Spark")) -- mail
   hs.hotkey.bind({"alt"}, "H", open("Things3"))
   hs.hotkey.bind({"alt"}, "D", openChromeApp("Cider"))
   --- sleep
