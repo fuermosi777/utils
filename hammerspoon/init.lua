@@ -167,8 +167,8 @@ function chrome_switch_to(menuItem)
   end
   
   --- open different Chrome users
-  hs.hotkey.bind({"alt"}, "1", chrome_switch_to({"People", "Hao"}))
-  hs.hotkey.bind({"alt"}, "2", chrome_switch_to({"People", "vlogbyhao (Personal)"}))
+  hs.hotkey.bind({"alt"}, "1", chrome_switch_to({"Profiles", "Hao"}))
+  hs.hotkey.bind({"alt"}, "2", chrome_switch_to({"Profiles", "vlogbyhao (Personal)"}))
   hs.hotkey.bind({"alt"}, "`", chrome_switch_to({"File", "New Incognito Window"}))
   
   --- quick open applications
