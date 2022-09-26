@@ -168,7 +168,7 @@ function chrome_switch_to(menuItem)
   
   --- open different Chrome users
   hs.hotkey.bind({"alt"}, "1", chrome_switch_to({"Profiles", "Hao"}))
-  hs.hotkey.bind({"alt"}, "2", chrome_switch_to({"Profiles", "vlogbyhao (Personal)"}))
+  hs.hotkey.bind({"alt"}, "2", chrome_switch_to({"Profiles", "Hao (Personal)"}))
   hs.hotkey.bind({"alt"}, "`", chrome_switch_to({"File", "New Incognito Window"}))
   
   --- quick open applications
@@ -180,7 +180,8 @@ function chrome_switch_to(menuItem)
   hs.hotkey.bind({"alt"}, "S", open("Sublime Text"))
   hs.hotkey.bind({"alt"}, "V", open("Visual Studio Code"))
   hs.hotkey.bind({"alt"}, "H", open("Things3"))
-  hs.hotkey.bind({"alt"}, "D", openChromeApp("Cider"))
+  hs.hotkey.bind({"alt"}, "D", openChromeApp("Cider-V"))
+  hs.hotkey.bind({"alt"}, "A", openChromeApp("Google Chat"))
   --- sleep
   hs.hotkey.bind({"shift", "alt", "command"}, "DELETE", sleep)
   
