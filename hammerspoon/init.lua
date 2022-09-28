@@ -53,6 +53,20 @@ function sleep()
     hs.caffeinate.systemSleep()
 end
 
+function screenWidthFraction(ratio)
+    local win = hs.window.focusedWindow()
+    local screenFrame = win:screen():frame()
+    screenFrame = win:screen():absoluteToLocal(screenFrame)
+    return math.floor(screenFrame.w * ratio)
+end
+
+function screenHeightFraction(ratio)
+    local win = hs.window.focusedWindow()
+    local screenFrame = win:screen():frame()
+    screenFrame = win:screen():absoluteToLocal(screenFrame)
+    return math.floor(screenFrame.h * ratio)
+end
+
 function snap(dir)
     return function()
         local win = hs.window.focusedWindow()
@@ -70,30 +84,30 @@ function snap(dir)
                 frame.x = 0
                 frame.w = math.min(frame.w, screenFrame.w)
             elseif x == 0 then -- attached left, expand to full and then shrink
-                if w < screenFrame.w * 1 / 4 then -- win width less than 33%
-                    frame.w = screenFrame.w * 1 / 4
-                elseif w < screenFrame.w * 1 / 2 then -- win width less than 50%
-                    frame.w = screenFrame.w * 1 / 2
-                elseif w < screenFrame.w * 3 / 4 then -- win with less than 67%
-                    frame.w = screenFrame.w * 3 / 4
+                if w < screenWidthFraction(1 / 4) then -- win width less than 33%
+                    frame.w = screenWidthFraction(1 / 4)
+                elseif w < screenWidthFraction(1 / 2) then -- win width less than 50%
+                    frame.w = screenWidthFraction(1 / 2)
+                elseif w < screenWidthFraction(3 / 4) then -- win with less than 67%
+                    frame.w = screenWidthFraction(3 / 4)
                 elseif w < screenFrame.w then -- win not full screen
                     frame.w = screenFrame.w
                 else -- already full with, start shrink
-                    frame.w = screenFrame.w * 3 / 4
+                    frame.w = screenWidthFraction(3 / 4)
                     frame.x = screenFrame.w - frame.w
                 end
             elseif x + frame.w < screenFrame.w then -- gap on right side, attaching right
                 frame.x = screenFrame.w - frame.w
             else -- already attached right or overflow right, shrink
                 frame.w = screenFrame.w - x
-                if w > screenFrame.w * 3 / 4 then
-                    frame.w = screenFrame.w * 3 / 4
+                if w > screenWidthFraction(3 / 4) then
+                    frame.w = screenWidthFraction(3 / 4)
                     frame.x = screenFrame.w - frame.w
-                elseif w > screenFrame.w * 1 / 2 then
-                    frame.w = screenFrame.w * 1 / 2
+                elseif w > screenWidthFraction(1 / 2) then
+                    frame.w = screenWidthFraction(1 / 2)
                     frame.x = screenFrame.w - frame.w
-                elseif w > screenFrame.w * 1 / 3 then
-                    frame.w = screenFrame.w * 1 / 3
+                elseif w > screenWidthFraction(1 / 3) then
+                    frame.w = screenWidthFraction(1 / 3)
                     frame.x = screenFrame.w - frame.w
                 end
             end
@@ -102,41 +116,41 @@ function snap(dir)
                 frame.x = screenFrame.w - w
                 frame.w = math.min(frame.w, screenFrame.w)
             elseif x + w == screenFrame.w then -- attached right, expand to full then shrink
-                if w < screenFrame.w * 1 / 4 then -- win with less than 33%
-                    frame.w = screenFrame.w * 1 / 4
+                if w < screenWidthFraction(1 / 4) then -- win with less than 33%
+                    frame.w = screenWidthFraction(1 / 4)
                     frame.x = screenFrame.w - frame.w
-                elseif w < screenFrame.w * 1 / 2 then -- win width less than 50%
-                    frame.w = screenFrame.w * 1 / 2
+                elseif w < screenWidthFraction(1 / 2) then -- win width less than 50%
+                    frame.w = screenWidthFraction(1 / 2)
                     frame.x = screenFrame.w - frame.w
-                elseif w < screenFrame.w * 3 / 4 then -- win with less than 67%
-                    frame.w = screenFrame.w * 3 / 4
+                elseif w < screenWidthFraction(3 / 4) then -- win with less than 67%
+                    frame.w = screenWidthFraction(3 / 4)
                     frame.x = screenFrame.w - frame.w
                 elseif w < screenFrame.w then -- win almost full width
                     frame.w = screenFrame.w
                     frame.x = screenFrame.w - frame.w
                 else -- full width, start shrinking
-                    frame.w = screenFrame.w * 3 / 4
+                    frame.w = screenWidthFraction(3 / 4)
                 end
             elseif x > 0 then -- gap on left
                 frame.x = 0
             else -- already attached left or overflow left
                 frame.x = 0
-                if w > screenFrame.w * 3 / 4 then
-                    frame.w = screenFrame.w * 3 / 4
-                elseif w > screenFrame.w * 1 / 2 then
-                    frame.w = screenFrame.w * 1 / 2
-                elseif w > screenFrame.w * 1 / 3 then
-                    frame.w = screenFrame.w * 1 / 3
+                if w > screenWidthFraction(3 / 4) then
+                    frame.w = screenWidthFraction(3 / 4)
+                elseif w > screenWidthFraction(1 / 2) then
+                    frame.w = screenWidthFraction(1 / 2)
+                elseif w > screenWidthFraction(1 / 3) then
+                    frame.w = screenWidthFraction(1 / 3)
                 end
             end
         elseif dir == 'up' then
             if y == screenFrame.y then -- attached to top
-                if h >= screenFrame.h / 2 then
-                    frame.h = screenFrame.h / 2
+                if h >= screenHeightFraction(1 / 2) then
+                    frame.h = screenHeightFraction(1 / 2)
                 end
             elseif y + h == screenFrame.h + screenFrame.y then -- attached to bottom
-                if h < math.floor(screenFrame.h / 2) then
-                    frame.h = math.floor(screenFrame.h / 2)
+                if h < screenHeightFraction(1 / 2) then
+                    frame.h = screenHeightFraction(1 / 2)
                     frame.y = screenFrame.h - frame.h + screenFrame.y
                 else
                     frame.y = screenFrame.y
@@ -149,13 +163,13 @@ function snap(dir)
             end
         elseif dir == 'down' then
             if y + h == screenFrame.h + screenFrame.y then -- attach to bottom
-                if h > math.floor(screenFrame.h / 2) then
-                    frame.h = math.floor(screenFrame.h / 2)
+                if h > screenHeightFraction(1 / 2) then
+                    frame.h = screenHeightFraction(1 / 2)
                     frame.y = screenFrame.h - frame.h + screenFrame.y
                 end
             elseif y == screenFrame.y then -- attach to top
-                if h < math.floor(screenFrame.h / 2) then
-                    frame.h = math.floor(screenFrame.h / 2)
+                if h < screenHeightFraction(1 / 2) then
+                    frame.h = screenHeightFraction(1 / 2)
                 else
                     frame.y = screenFrame.y
                     frame.h = screenFrame.h
