@@ -137,10 +137,13 @@ function snap(dir)
             elseif y + h == screenFrame.h + screenFrame.y then -- attached to bottom
                 if h < math.floor(screenFrame.h / 2) then
                     frame.h = math.floor(screenFrame.h / 2)
+                    frame.y = screenFrame.h - frame.h + screenFrame.y
                 else
                     frame.y = screenFrame.y
                     frame.h = screenFrame.h
                 end
+            elseif y + h > screenFrame.h + screenFrame.y then -- overflow bottom, attaching to bottom
+                frame.y = screenFrame.h - h + screenFrame.y
             else -- not attached
                 frame.y = screenFrame.y
             end
@@ -151,8 +154,12 @@ function snap(dir)
                     frame.y = screenFrame.h - frame.h + screenFrame.y
                 end
             elseif y == screenFrame.y then -- attach to top
-                frame.y = screenFrame.y
-                frame.h = screenFrame.h
+                if h < math.floor(screenFrame.h / 2) then
+                    frame.h = math.floor(screenFrame.h / 2)
+                else
+                    frame.y = screenFrame.y
+                    frame.h = screenFrame.h
+                end
             elseif y + h > screenFrame.h + screenFrame.y then -- overflow bottom do nothing
             else
                 frame.y = screenFrame.h - h + screenFrame.y
