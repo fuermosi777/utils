@@ -145,12 +145,23 @@ function snap(dir)
             end
         elseif dir == 'up' then
             if y == screenFrame.y then -- attached to top
-                if h >= screenHeightFraction(1 / 2) then
+                -- shrink
+                if h > screenHeightFraction(2 / 3) then
+                    frame.h = screenHeightFraction(2 / 3)
+                elseif h > screenHeightFraction(1 / 2) then
                     frame.h = screenHeightFraction(1 / 2)
+                else
+                    frame.h = screenHeightFraction(1 / 3)
                 end
             elseif y + h == screenFrame.h + screenFrame.y then -- attached to bottom
-                if h < screenHeightFraction(1 / 2) then
+                if h < screenHeightFraction(1 / 3) then
+                    frame.h = screenHeightFraction(1 / 3)
+                    frame.y = screenFrame.h - frame.h + screenFrame.y
+                elseif h < screenHeightFraction(1 / 2) then
                     frame.h = screenHeightFraction(1 / 2)
+                    frame.y = screenFrame.h - frame.h + screenFrame.y
+                elseif h < screenHeightFraction(2 / 3) then
+                    frame.h = screenHeightFraction(2 / 3)
                     frame.y = screenFrame.h - frame.h + screenFrame.y
                 else
                     frame.y = screenFrame.y
@@ -163,13 +174,23 @@ function snap(dir)
             end
         elseif dir == 'down' then
             if y + h == screenFrame.h + screenFrame.y then -- attach to bottom
-                if h > screenHeightFraction(1 / 2) then
+                if h > screenHeightFraction(2 / 3) then
+                    frame.h = screenHeightFraction(2 / 3)
+                    frame.y = screenFrame.h - frame.h + screenFrame.y
+                elseif h > screenHeightFraction(1 / 2) then
                     frame.h = screenHeightFraction(1 / 2)
+                    frame.y = screenFrame.h - frame.h + screenFrame.y
+                elseif h > screenHeightFraction(1 / 3) then
+                    frame.h = screenHeightFraction(1 / 3)
                     frame.y = screenFrame.h - frame.h + screenFrame.y
                 end
             elseif y == screenFrame.y then -- attach to top
-                if h < screenHeightFraction(1 / 2) then
+                if h < screenHeightFraction(1 / 3) then
+                    frame.h = screenHeightFraction(1 / 3)
+                elseif h < screenHeightFraction(1 / 2) then
                     frame.h = screenHeightFraction(1 / 2)
+                elseif h < screenHeightFraction(2 / 3) then
+                    frame.h = screenHeightFraction(2 / 3)
                 else
                     frame.y = screenFrame.y
                     frame.h = screenFrame.h
