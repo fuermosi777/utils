@@ -22,14 +22,6 @@
   "key": "cmd+k cmd+k",
   "command": "workbench.action.keepEditor"
 },
-{
-  "key": "cmd+r",
-  "command": "extension.relatedFiles"
-},
-{
-  "key": "alt+cmd+r",
-  "command": "-extension.relatedFiles"
-},
 { "key": "ctrl+cmd+b",
   "command": "workbench.action.toggleStatusbarVisibility" }
 ]
