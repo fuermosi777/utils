@@ -1,18 +1,9 @@
 {
-  "editor.lineHeight": 14.5,
-  "editor.fontWeight": "normal",
-  "window.zoomLevel": 0,
   "editor.scrollBeyondLastLine": false,
-  "workbench.activityBar.visible": true,
   "editor.wordWrap": "on",
   "explorer.autoReveal": false,
-  "workbench.statusBar.visible": true,
-  "typescript.check.npmIsInstalled": false,
-  "workbench.iconTheme": "vs-seti",
   "editor.minimap.enabled": false,
-  "extensions.ignoreRecommendations": true,
-  "javascript.implicitProjectConfig.experimentalDecorators": true,
   "editor.fontFamily": "Fira Code",
   "editor.fontLigatures": true,
-  "editor.acceptSuggestionOnCommitCharacter": false
+  "workbench.colorTheme": "Solarized Light"
 }
