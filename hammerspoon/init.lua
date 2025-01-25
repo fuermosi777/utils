@@ -226,6 +226,7 @@ hs.hotkey.bind({"alt"}, "`", chrome_switch_to({"File", "New Incognito Window"}))
 --- quick open applications
 hs.hotkey.bind({"alt"}, "E", open("Finder"))
 hs.hotkey.bind({"alt"}, "W", open("WeChat"))
+hs.hotkey.bind({"alt"}, "M", open("Messages"))
 hs.hotkey.bind({"alt"}, "C", open("Google Chrome"))
 hs.hotkey.bind({"alt"}, "T", open("iTerm"))
 hs.hotkey.bind({"alt"}, "X", open("Xcode"))
