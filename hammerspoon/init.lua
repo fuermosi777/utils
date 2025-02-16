@@ -233,6 +233,8 @@ hs.hotkey.bind({"alt"}, "X", open("Xcode"))
 hs.hotkey.bind({"alt"}, "S", open("Sublime Text"))
 hs.hotkey.bind({"alt"}, "V", open("Visual Studio Code"))
 hs.hotkey.bind({"alt"}, "H", open("Things3"))
+hs.hotkey.bind({"alt"}, "N", open("Notes"))
+hs.hotkey.bind({"alt"}, "R", open("Reminders"))
 hs.hotkey.bind({"alt"}, "D", openChromeApp("Cider-V"))
 hs.hotkey.bind({"alt"}, "A", openChromeApp("Google Chat"))
 --- sleep
